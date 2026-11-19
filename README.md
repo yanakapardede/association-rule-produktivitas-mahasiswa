@@ -6,15 +6,22 @@
 
 | Name | NIM |
 |---|---|
-Yanaka Sofia Pardede | 24031554065 |
-Fajria Rasmi Ridha Rumkel | 24031554191 |
-Annisa Ramadhani | 24031554206 |
+| Yanaka Sofia Pardede | 24031554065 |
+| Fajria Rasmi Ridha Rumkel | 24031554191 |
+| Annisa Ramadhani | 24031554206 |
 
 ## Project Overview
 
 Proyek ini bertujuan untuk menemukan pola hubungan antara kebiasaan mahasiswa dan tingkat produktivitas akademik menggunakan metode **Association Rule Mining**. Analisis dilakukan terhadap variabel waktu belajar, durasi tidur, penggunaan media sosial, tingkat stres, penggunaan ponsel, olahraga, dan kehadiran.
 
 Data numerik terlebih dahulu dikategorikan menjadi kelompok rendah, sedang, dan tinggi, kemudian diubah ke dalam bentuk transaksi. Pola kemunculan bersama dicari menggunakan dua algoritma, yaitu **Apriori** dan **FP-Growth**, lalu dievaluasi dengan metrik **support**, **confidence**, dan **lift**. Kedua algoritma juga dibandingkan berdasarkan waktu komputasi dan jumlah pola yang dihasilkan.
+
+### Tujuan
+
+1. Mengolah data perilaku mahasiswa ke dalam bentuk transaksi untuk Frequent Pattern Mining.
+2. Menemukan frequent itemset dan association rule menggunakan Apriori dan FP-Growth.
+3. Mengidentifikasi hubungan antara kebiasaan mahasiswa dan tingkat produktivitas akademik.
+4. Membandingkan kedua algoritma dari sisi waktu komputasi dan jumlah pola yang dihasilkan.
 
 ## Dataset Information
 
@@ -23,6 +30,8 @@ Data numerik terlebih dahulu dikategorikan menjadi kelompok rendah, sedang, dan 
 - **Total Records:** 20,000
 - **Selected Attributes:** 8
 - **Data Quality:** Tidak ditemukan missing value maupun data duplikat
+
+> File dataset tidak diunggah ke repository. Sesuaikan path dataset pada notebook sebelum menjalankannya.
 
 ### Main Attributes
 
@@ -39,15 +48,11 @@ Data numerik terlebih dahulu dikategorikan menjadi kelompok rendah, sedang, dan 
 
 ### 1. Data Understanding & Exploration
 
-Dataset dibaca dari file CSV menggunakan Python dan Pandas. Tahap ini mencakup pengecekan ukuran data, struktur kolom, missing value, data duplikat, dan statistik deskriptif.
+Dataset dibaca menggunakan Python dan Pandas. Tahap ini mencakup pengecekan ukuran data, struktur kolom, missing value, data duplikat, statistik deskriptif, boxplot outlier, distribusi variabel, dan korelasi antarvariabel.
 
-### 2. Preprocessing
+### 2. Variable Selection
 
-Tahapan preprocessing meliputi:
-
-- Seleksi 8 variabel yang relevan dengan perilaku dan produktivitas mahasiswa.
-- Pengecekan outlier menggunakan boxplot.
-- Eksplorasi distribusi variabel dan korelasi antarvariabel.
+Dipilih 8 variabel yang relevan dengan perilaku dan produktivitas mahasiswa.
 
 ### 3. Discretization
 
@@ -91,16 +96,6 @@ Setiap mahasiswa diubah menjadi satu transaksi yang berisi 8 item kategori. Tran
 - **Confidence:** tingkat kepercayaan bahwa suatu item muncul ketika item lain sudah muncul.
 - **Lift:** kekuatan hubungan dibandingkan kemunculan acak. Lift lebih dari 1 menunjukkan keterkaitan positif.
 
-## Analysis Performed
-
-1. Frequent Itemset Apriori
-2. Frequent Itemset FP-Growth
-3. Association Rule Apriori (Top 10 by Lift)
-4. Association Rule FP-Growth (Top 10 by Lift)
-5. Perbandingan Waktu Komputasi
-6. Perbandingan Jumlah Frequent Itemset dan Association Rule
-7. Hubungan Support vs Confidence
-
 ## Visualization
 
 Visualisasi dibuat menggunakan **Matplotlib** dan **Seaborn** di dalam notebook.
@@ -132,25 +127,23 @@ Visualisasi dibuat menggunakan **Matplotlib** dan **Seaborn** di dalam notebook.
 | study_medium | 0.3145 |
 | stress_high | 0.2991 |
 
-### Notable Rules
+**Interpretasi**
 
-| Rule | Support | Confidence | Lift |
-|---|---:|---:|---:|
-| study_low → productivity_low | 0.115 | 0.724 | 2.613 |
-| productivity_high → study_high | [isi] | 0.978 | 1.856 |
+- Sekitar 11,5% mahasiswa memiliki kombinasi waktu belajar rendah dan produktivitas rendah. Dari semua mahasiswa dengan waktu belajar rendah, sekitar 72,4% berproduktivitas rendah, dan hubungan ini 2,6 kali lebih sering terjadi dibanding kemunculan acak.
+- Hampir semua mahasiswa berproduktivitas tinggi (97,8%) berada pada kategori waktu belajar tinggi.
 
 ## Key Findings
 
-Berdasarkan hasil analisis yang telah dilakukan, diperoleh beberapa temuan utama:
-
 - Apriori dan FP-Growth menghasilkan jumlah frequent itemset dan association rule yang sama.
-- Pada data dan implementasi ini, Apriori menyelesaikan proses mining lebih cepat dibandingkan FP-Growth.
-- Waktu belajar memiliki keterkaitan dengan produktivitas akademik.
-- Mahasiswa dengan waktu belajar rendah cenderung berproduktivitas rendah (confidence 0.724, lift 2.613).
-- Mahasiswa berproduktivitas tinggi hampir selalu berada pada kategori waktu belajar tinggi (confidence 0.978).
-- Rule menunjukkan keterkaitan, bukan hubungan sebab-akibat.
-- Hasil bergantung pada batas diskretisasi dan ambang minimum support/confidence yang dipilih.
-- Perbandingan waktu berlaku pada dataset dan implementasi yang digunakan, bukan kesimpulan umum bahwa satu algoritma selalu lebih cepat.
+- Waktu belajar memiliki keterkaitan kuat dengan produktivitas akademik, baik pada kategori rendah maupun tinggi.
+- Pada data dan implementasi ini, Apriori menyelesaikan proses mining lebih cepat dibanding FP-Growth.
+
+## Limitations
+
+- Rule menunjukkan **keterkaitan**, bukan hubungan sebab-akibat.
+- Batas kategori (rendah, sedang, tinggi) ditentukan manual, sehingga hasil rule dapat berubah jika batasnya diubah.
+- Hasil juga bergantung pada ambang minimum support dan confidence yang dipilih.
+- Waktu komputasi berasal dari satu kali eksekusi di Google Colab. Perbandingan ini berlaku pada dataset dan implementasi yang digunakan, bukan kesimpulan umum bahwa satu algoritma selalu lebih cepat.
 
 ## How to Run
 
@@ -161,5 +154,5 @@ Berdasarkan hasil analisis yang telah dilakukan, diperoleh beberapa temuan utama
 Untuk menjalankan di lokal, hapus sel `drive.mount` dan pasang library:
 
 ```bash
-pip install pandas numpy matplotlib seaborn networkx mlxtend
+pip install pandas numpy matplotlib seaborn mlxtend
 ```
